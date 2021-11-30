@@ -1,8 +1,8 @@
-import 'package:baby_tracker/services/BaseService.dart';
+import 'package:baby_tracker/services/base_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'dashboard_page.dart';
+import 'dashboard_view.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage>{
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool isLoading=false;
   final _formKey = GlobalKey<FormState>();
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage>{
     });
     final success = await Services.of(context)
         .authService
-        .signIn(_emailController.text, _passwordController.text);
+        .signIn(_usernameController.text, _passwordController.text);
     await _handleResponse(success);
     setState(() {
       isLoading = false;
@@ -36,12 +36,9 @@ class _LoginPageState extends State<LoginPage>{
           context, MaterialPageRoute(builder: (_) => HomePage()));
   }
 
-  String? _validateEmail(String? email) {
-    RegExp regex = RegExp(r'\w+@\w+\.\w+');
+  String? _validateUsername(String? email) {
     if (email!.isEmpty)
-      return 'Please enter an email address';
-    else if (!regex.hasMatch(email))
-      return "Please enter a valid email address";
+      return 'Please enter the username';
     else
       return null;
   }
@@ -59,10 +56,10 @@ class _LoginPageState extends State<LoginPage>{
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Login successful')));
       await Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => DashboardPage()));
+          context, MaterialPageRoute(builder: (_) => DashboardView()));
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Email or password incorrect')));
+          .showSnackBar(SnackBar(content: Text('Username or password incorrect')));
     }
   }
 
@@ -79,10 +76,10 @@ class _LoginPageState extends State<LoginPage>{
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: _emailController,
+                  controller: _usernameController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(hintText: 'Email'),
-                  validator: _validateEmail,
+                  decoration: InputDecoration(hintText: 'Username'),
+                  validator: _validateUsername,
                 ),
               ),
               Padding(
@@ -132,7 +129,7 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }

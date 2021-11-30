@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:supabase/supabase.dart';
-
 import '../secrets.dart';
-import 'AuthService.dart';
-
+import 'auth_service.dart';
 
 class Services extends InheritedWidget {
   final AuthService authService;

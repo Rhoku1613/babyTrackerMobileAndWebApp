@@ -1,6 +1,5 @@
-import 'package:baby_tracker/services/BaseService.dart';
+import 'package:baby_tracker/services/base_service.dart';
 import 'package:flutter/material.dart';
-
 import 'home_page.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -13,7 +12,7 @@ class DashboardPage extends StatelessWidget {
           context, MaterialPageRoute(builder: (_) => HomePage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('There was an issue logging out.')));
+          const SnackBar(content: Text('There was an issue logging out.')));
     }
   }
 
