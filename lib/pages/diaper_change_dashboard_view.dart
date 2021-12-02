@@ -40,7 +40,7 @@ class _DiaperChangeLogDashboardView extends State<DiaperChangeLogDashboardView> 
 
   Future<void> _navigateToLogList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => DiaperChangeLogsListView(data: this.data,)));
+        context, MaterialPageRoute(builder: (_) => DiaperChangeLogsListView(child: this.widget.child,)));
   }
 
   @override
@@ -88,10 +88,7 @@ class _DiaperChangeLogDashboardView extends State<DiaperChangeLogDashboardView> 
           crossAxisSpacing: 4,
           mainAxisSpacing: 4,
           children: [
-            gridTileFactory("Diaper Change Log List", AssetImage("assets/dashboard/babyTracker-list.png")),
-            gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
-            gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
-          ],
+            gridTileFactory("Diaper Change Log List", AssetImage("assets/dashboard/babyTracker-list.png")),],
         ));
   }
 }

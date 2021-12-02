@@ -31,7 +31,7 @@ class _SleepLogDashboardView extends State<SleepLogDashboardView> {
 
   Future<void> _navigateToSleepLogList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => SleepLogsListView()));
+        context, MaterialPageRoute(builder: (_) => SleepLogsListView(child: this.widget.child,)));
   }
 
   List<SleepLogs> data=[];

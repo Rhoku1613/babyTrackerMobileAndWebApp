@@ -22,6 +22,20 @@ class ForumService {
     }
   }
 
+  Future<List<Comments>> get_all_forum_post_comment(int post_id) async {
+    final url = this.base_url + "forum/comments?post_id=$post_id";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      List<Comments> allComments = List<Comments>.from(
+          json.decode(response.body).map((x) => Comments.fromJson(x)));
+      return allComments;
+    } else {
+      throw Exception("Cannot get blogs");
+    }
+  }
+
+
+
   Future<String> create_forum_post(Forum forum) async {
     final url = this.base_url + "forum/";
     try {

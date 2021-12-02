@@ -99,6 +99,46 @@ class ActivityLogService{
     }
   }
 
+  Future<String> delete_diaperChangeLog(int id) async{
+    final url=this.base_url+"diaper/$id/";
+    final response=await http.delete(Uri.parse(url),headers:{});
+    if(response.statusCode==204){
+      return "Diaper Change Log Deleted Successfully";
+    }else{
+      throw Exception("Diaper Log could not be delete");
+    }
+  }
+
+  Future<String> delete_vaccinationLog(int id) async{
+    final url=this.base_url+"vaccine/$id/";
+    final response=await http.delete(Uri.parse(url),headers:{});
+    if(response.statusCode==204){
+      return "Vaccine Log Deleted Successfully";
+    }else{
+      throw Exception("Vaccine Log could not be deleted");
+    }
+  }
+
+  Future<String> delete_sleepLog(int id) async{
+    final url=this.base_url+"sleep/$id/";
+    final response=await http.delete(Uri.parse(url),headers:{});
+    if(response.statusCode==204){
+      return "Sleep Log Deleted Successfully";
+    }else{
+      throw Exception("Sleep Log could not be deleted");
+    }
+  }
+
+  Future<String> delete_growthLog(int id) async{
+    final url=this.base_url+"growth/$id/";
+    final response=await http.delete(Uri.parse(url),headers:{});
+    if(response.statusCode==204){
+      return "Growth Log Deleted Successfully";
+    }else{
+      throw Exception("Growth Log could not be deleted");
+    }
+  }
+
 
   Future<String> add_diaper_change_log(DiaperChangeLogs diaperChangeLogs) async{
     final url = this.base_url + "diaper/";

@@ -1,29 +1,26 @@
-import 'package:baby_tracker/models/activity_response.dart';
 import 'package:baby_tracker/models/forum_response.dart';
-import 'package:baby_tracker/pages/sleep_log_dashboard_view.dart';
+import 'package:baby_tracker/services/forum_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'growth_log_dashboard_view.dart';
 
 class ForumDetailView extends StatefulWidget {
-  ForumDetailView({Key? key, required this.forum}): super(key: key);
+  ForumDetailView({Key? key, required this.forum}) : super(key: key);
 
   final Forum forum;
-
 
   @override
   State<ForumDetailView> createState() => _ForumDetailViewState();
 }
 
 class _ForumDetailViewState extends State<ForumDetailView> {
+  List<Comments> _allComments = [];
 
   GridTile gridTileFactory(String title, AssetImage assetImage) {
     return GridTile(
       footer: Text(title),
       child: GestureDetector(
-        onTap: () {
-        },
+        onTap: () {},
         child: Image(
           image: assetImage,
         ),
@@ -37,16 +34,37 @@ class _ForumDetailViewState extends State<ForumDetailView> {
         appBar: AppBar(
           title: Text(this.widget.forum.title),
         ),
-        body: GridView.count(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 4,
+        body: Column(
           children: [
-            gridTileFactory("Sleep Log", AssetImage("assets/dashboard/baby-boy.png")),
-            gridTileFactory("Vaccination Log",AssetImage("assets/dashboard/babytracker-blog-logo.png")),
-            gridTileFactory("Growth Log",AssetImage("assets/dashboard/babytracker-forum-logo.png")),
-            gridTileFactory("Diaper Change Log",AssetImage("assets/dashboard/babytracker-syringe.png")),
+            Text(this.widget.forum.title),
+            Text(this.widget.forum.body),
+            Divider(
+              height: 10,
+            ),
+            Text("Comments"),
+            ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: _allComments.length,
+              itemBuilder: (context, index){
+                return Text(_allComments[index].comment);
+              },
+            )
           ],
         ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getForumPostComments();
+  }
+
+  void _getForumPostComments() async {
+    List<Comments> comments =
+        await ForumService().get_all_forum_post_comment(this.widget.forum.id);
+    setState(() {
+      _allComments = comments;
+    });
   }
 }

@@ -1,18 +1,23 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
+import 'package:baby_tracker/models/activity_response.dart';
+import 'package:baby_tracker/pages/vaccination_log_dashboard_view.dart';
 import 'package:baby_tracker/pages/vaccination_logs_chart/vaccination_create_view.dart';
+import 'package:baby_tracker/services/acitvity_log_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class VaccinationLogsListView extends StatefulWidget {
-  VaccinationLogsListView({Key? key, required this.data}): super(key: key);
+  VaccinationLogsListView({Key? key, required this.child}): super(key: key);
 
-  final List<Vaccine> data;
+  final Child child;
 
   @override
   _VaccinationLogsListView createState() => _VaccinationLogsListView();
 }
 
 class _VaccinationLogsListView extends State<VaccinationLogsListView> {
+
+  List<Vaccine> _allVaccineLogs=[];
 
   // void _deleteItem(int index) async {
   //   int id = data[index].id;
@@ -34,10 +39,22 @@ class _VaccinationLogsListView extends State<VaccinationLogsListView> {
     onPressed: () {},
   );
 
+  void _deleteItem(int index) async{
+    int id=this._allVaccineLogs[index].id;
+    String response=await ActivityLogService().delete_vaccinationLog(id);
+    if(response=="Vaccine Log Deleted Successfully"){
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Vaccine Log information deleted successfully')));
+      _navigateToDashboard();
+    }else{
+      print("Operation failed");
+    }
+  }
+
   ListTile _buildItemsForListView(BuildContext context, int index) {
     return ListTile(
         onTap: () {},
-        title: Text(this.widget.data[index].name),
+        title: Text(this._allVaccineLogs[index].name),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -51,10 +68,16 @@ class _VaccinationLogsListView extends State<VaccinationLogsListView> {
                         content: Text(
                             "Are you sure you want to delete this sleep log?"),
                         actions: <Widget>[
-                          cancelButton,
+                          TextButton(
+                            child: Text("Cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
                           TextButton(
                               onPressed: () {
                                 //delete item first
+                                _deleteItem(index);
                               },
                               child: Text("Delete"))
                         ],
@@ -79,13 +102,33 @@ class _VaccinationLogsListView extends State<VaccinationLogsListView> {
           title: Text("Vaccination Log List View"),
         ),
         body: ListView.builder(
-          itemCount: this.widget.data.length,
+          itemCount: this._allVaccineLogs.length,
           itemBuilder: _buildItemsForListView,
         ));
   }
 
   void _navigateToVaccinationLogCreateView() async{
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const VaccinationLogsCreateView()));
+        context, MaterialPageRoute(builder: (_) => VaccinationLogsCreateView(child: this.widget.child,)));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _populateList();
+
+  }
+
+  void _populateList() {
+    ActivityLogService()
+        .get_all_vaccine_logs(this.widget.child.id)
+        .then((allVaccineLogs) => {
+      setState(() => {this._allVaccineLogs = allVaccineLogs})
+    });
+  }
+
+  void _navigateToDashboard() async{
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (_) => VaccinationLogDashboardView(child: this.widget.child)));
   }
 }

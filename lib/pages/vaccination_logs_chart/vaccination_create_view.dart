@@ -1,4 +1,6 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
+import 'package:baby_tracker/models/activity_response.dart';
+import 'package:baby_tracker/pages/vaccination_log_dashboard_view.dart';
 import 'package:baby_tracker/services/acitvity_log_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class VaccinationLogsCreateView extends StatefulWidget {
-  const VaccinationLogsCreateView();
+  VaccinationLogsCreateView({Key? key, required this.child}): super(key: key);
+
+  final Child child;
 
   @override
   _VaccinationLogsCreateViewState createState() =>
@@ -18,7 +22,6 @@ class _VaccinationLogsCreateViewState extends State<VaccinationLogsCreateView> {
   final _nameController = TextEditingController();
   final _numberOfDosesController = TextEditingController();
   final _numberOfDosesTakenController = TextEditingController();
-  final _childrenController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -31,16 +34,17 @@ class _VaccinationLogsCreateViewState extends State<VaccinationLogsCreateView> {
     Vaccine vaccineLogs = Vaccine(
       id: 999,
       date: _dateController.text,
-      child: 3,
+      child: this.widget.child.id,
       name: _nameController.text,
       numberOfDosesTaken: int.parse(_numberOfDosesController.text),
       numberOfDoses: int.parse(_numberOfDosesTakenController.text),
     );
     final response = await ActivityLogService().add_vaccine_log(vaccineLogs);
     if (response == 'Vaccine log added successfully') {
-      setState(() {
-        isLoading = false;
-      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Vaccine Log addedd successfully')));
+      await Navigator.push(
+          context, MaterialPageRoute(builder: (_) => VaccinationLogDashboardView(child: this.widget.child)));
     } else {
       setState(() {
         isLoading = false;

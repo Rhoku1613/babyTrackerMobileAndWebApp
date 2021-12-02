@@ -34,7 +34,7 @@ class _VaccinationLogDashboardView extends State<VaccinationLogDashboardView> {
 
   Future<void> _navigateToSleepLogList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => VaccinationLogsListView(data: this.data,)));
+        context, MaterialPageRoute(builder: (_) => VaccinationLogsListView(child: this.widget.child,)));
   }
 
   List<Vaccine> data=[];

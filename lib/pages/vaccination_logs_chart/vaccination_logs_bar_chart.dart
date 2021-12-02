@@ -13,9 +13,6 @@ class VaccinationLogBarChart extends StatefulWidget{
 
 class _VaccinationLogBarChartState extends State<VaccinationLogBarChart> {
   TooltipBehavior _tooltip = TooltipBehavior(enable: true);
-  List<SalesData> data = [
-    SalesData('Jan', 35),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +30,25 @@ class _VaccinationLogBarChartState extends State<VaccinationLogBarChart> {
                 //Initialize the spark charts widget
                 child: SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
+                    primaryYAxis: NumericAxis(minimum: 0, maximum: 10, interval: 1),
                     tooltipBehavior: _tooltip,
-                    series: <ChartSeries<SalesData, String>>[
-                      BarSeries<SalesData, String>(
-                          dataSource: this.data,
-                          xValueMapper: (SalesData data, _) => data.year,
-                          yValueMapper: (SalesData data, _) => data.sales,
-                          name: 'Gold',
-                          color: Color.fromRGBO(8, 142, 255, 1))
+                    series: <ChartSeries<Vaccine, String>>[
+                      BarSeries<Vaccine, String>(
+                          dataSource: this.widget.data,
+                          xValueMapper: (Vaccine data, _) => data.name,
+                          yValueMapper: (Vaccine data, _) => data.numberOfDoses,
+                          yAxisName: "Doses",
+                          xAxisName: "Name of Vaccine",
+                          name: 'Total Number Of Doses',
+                          color: Color.fromRGBO(8, 142, 255, 1)),
+                      BarSeries<Vaccine, String>(
+                          dataSource: this.widget.data,
+                          xValueMapper: (Vaccine data, _) => data.name,
+                          yValueMapper: (Vaccine data, _) => data.numberOfDosesTaken,
+                          yAxisName: "Doses",
+                          xAxisName: "Number Of Doses Taken",
+                          name: 'Vaccination',
+                          color: Color.fromRGBO(255, 182, 193, 1))
                     ]
               ),
             ))

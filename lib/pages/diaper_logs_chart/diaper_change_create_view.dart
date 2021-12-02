@@ -1,11 +1,14 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
+import 'package:baby_tracker/models/activity_response.dart';
 import 'package:baby_tracker/services/acitvity_log_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DiaperLogCreateView extends StatefulWidget {
-  const DiaperLogCreateView();
+  DiaperLogCreateView({Key? key, required this.child}): super(key: key);
+
+  final Child child;
 
   @override
   _DiaperLogCreateViewState createState() => _DiaperLogCreateViewState();
@@ -14,7 +17,6 @@ class DiaperLogCreateView extends StatefulWidget {
 class _DiaperLogCreateViewState extends State<DiaperLogCreateView> {
   final _descriptionController = TextEditingController();
   final _dateTimeController = TextEditingController();
-  final _ChildrenController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -27,7 +29,7 @@ class _DiaperLogCreateViewState extends State<DiaperLogCreateView> {
     });
     DiaperChangeLogs diaperChangeLog = DiaperChangeLogs(
         id: 999,
-        datetime:_dateTimeController.text,description: _descriptionController.text,child: 3);
+        datetime:_dateTimeController.text,description: _descriptionController.text,child: this.widget.child.id);
     final response = await ActivityLogService().add_diaper_change_log(diaperChangeLog);
     if (response == 'Diaper change log added successfully') {
       setState(() {

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import "package:intl/intl.dart";
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'children_list_view.dart';
+
 class ChildrenEnrollView extends StatefulWidget {
   const ChildrenEnrollView();
 
@@ -42,9 +44,7 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
         parent: parent);
     final response = await ChildService().enroll_a_child(child);
     if (response == 'Child enrolled successfully') {
-      setState(() {
-        isLoading = false;
-      });
+      _navigateToListView();
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Some error occurred while adding child information')));
@@ -214,4 +214,10 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
               ),
             )));
   }
+
+  void _navigateToListView() async{
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (_) => ChildrenListView()));
+  }
+
 }

@@ -38,15 +38,10 @@ class _BlogDetailViewState extends State<BlogDetailView> {
         appBar: AppBar(
           title: Text(this.widget.blog.title),
         ),
-        body: GridView.count(
-          crossAxisCount: 3,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 4,
+        body: Column(
           children: [
-            gridTileFactory("Sleep Log", AssetImage("assets/dashboard/baby-boy.png")),
-            gridTileFactory("Vaccination Log",AssetImage("assets/dashboard/babytracker-blog-logo.png")),
-            gridTileFactory("Growth Log",AssetImage("assets/dashboard/babytracker-forum-logo.png")),
-            gridTileFactory("Diaper Change Log",AssetImage("assets/dashboard/babytracker-syringe.png")),
+            Text(this.widget.blog.title),
+            Text(this.widget.blog.body)
           ],
         ));
   }

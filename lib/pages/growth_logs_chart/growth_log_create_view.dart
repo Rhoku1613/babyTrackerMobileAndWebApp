@@ -1,4 +1,5 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
+import 'package:baby_tracker/models/activity_response.dart';
 import 'package:baby_tracker/services/acitvity_log_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class GrowthLogsCreateView extends StatefulWidget {
-  const GrowthLogsCreateView();
+  GrowthLogsCreateView({Key? key, required this.child}): super(key: key);
+
+  final Child child;
 
   @override
   _GrowthLogsCreateViewState createState() => _GrowthLogsCreateViewState();
@@ -15,7 +18,6 @@ class GrowthLogsCreateView extends StatefulWidget {
 class _GrowthLogsCreateViewState extends State<GrowthLogsCreateView> {
   final _heightController = TextEditingController();
   final _dateTimeController = TextEditingController();
-  final _ChildrenController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -28,7 +30,7 @@ class _GrowthLogsCreateViewState extends State<GrowthLogsCreateView> {
     });
     GrowthLogs growthLog = GrowthLogs(
         id: 999,
-        datetime:_dateTimeController.text,child: 3, height: int.parse(_heightController.text));
+        datetime:_dateTimeController.text,child: this.widget.child.id, height: int.parse(_heightController.text));
     final response = await ActivityLogService().add_growth_log(growthLog);
     if (response == 'Growth log added successfully') {
       setState(() {

@@ -53,9 +53,7 @@ class _ForumListViewState extends State<ForumListView> {
         subtitle: Text(_allForumPost[index].body, style: TextStyle(fontSize: 18)), trailing: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(onPressed: () {
 
-        }, icon: Icon(Icons.edit)),
         IconButton(onPressed: () {
           showDialog(
               context: context,
@@ -63,7 +61,12 @@ class _ForumListViewState extends State<ForumListView> {
                 title:Text("Log out"),
                 content:Text("Are you sure you want to delete this child information?"),
                 actions: <Widget>[
-                  cancelButton,
+                  TextButton(
+                    child: Text("Cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                   TextButton(onPressed: (){
                     //delete item first
                     _deleteItem(index);

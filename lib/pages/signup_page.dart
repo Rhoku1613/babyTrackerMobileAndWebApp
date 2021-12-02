@@ -12,6 +12,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage>{
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController= TextEditingController();
@@ -26,11 +27,14 @@ class _SignUpPageState extends State<SignUpPage>{
 
     final success = await Services.of(context)
         .authService
-        .signUp(_emailController.text, _passwordController.text);
+        .signUp(_usernameController.text,_emailController.text, _passwordController.text);
     await _handleResponse(success);
     setState(() {
       isLoading = false;
     });
+    Navigator.pop(context);
+
+
   }
 
 
@@ -57,6 +61,13 @@ class _SignUpPageState extends State<SignUpPage>{
       return null;
   }
 
+  String? _validateUsername(String? username) {
+    if (username!.isEmpty)
+      return 'Username cannot be empty';
+    else
+      return null;
+  }
+
   String? _validateConfirmPassword(String? confirmPassword) {
     if (confirmPassword!.isEmpty)
       return 'Confirm password cannot be empty';
@@ -71,7 +82,9 @@ class _SignUpPageState extends State<SignUpPage>{
   Future<void> _handleResponse(bool success) async {
     if (success) {
       await Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => LoginPage()));
+          context, MaterialPageRoute(builder: (_) => HomePage()));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Sign Up successful.Please check your email')));
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Something went wrong.')));
@@ -94,6 +107,15 @@ class _SignUpPageState extends State<SignUpPage>{
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(hintText: 'Email'),
                   validator: _validateEmail,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _usernameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(hintText: 'username'),
+                  validator: _validateUsername,
                 ),
               ),
               Padding(

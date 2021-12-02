@@ -1,14 +1,14 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
 import 'package:baby_tracker/models/activity_response.dart';
 import 'package:baby_tracker/services/acitvity_log_service.dart';
-import 'package:baby_tracker/services/child_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SleepLogsCreateView extends StatefulWidget {
-  const SleepLogsCreateView();
+  SleepLogsCreateView({Key? key, required this.child}): super(key: key);
+
+  final Child child;
 
   @override
   _SleepLogsCreateViewState createState() => _SleepLogsCreateViewState();
@@ -18,7 +18,6 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
   final _dateController = TextEditingController();
   final _startTimeController = TextEditingController();
   final _endTimeController = TextEditingController();
-  final _ChildrenController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -26,9 +25,6 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
   TimeOfDay _startTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
 
-  int child=1;
-
-  List<Child> data=[];
 
   void _submit() async {
     setState(() {
@@ -37,7 +33,7 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
     SleepLogs sleepLogs = SleepLogs(
       id: 999,
       date: _dateController.text,
-      child: 3,
+      child: this.widget.child.id,
       start: _startTimeController.text,
       end: _endTimeController.text,
     );
@@ -105,11 +101,11 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
                       onTap: () async {
                         FocusScope.of(context).requestFocus(new FocusNode());
                         _startTime = (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now()))!;
+                            context: context, initialTime: TimeOfDay.now()))!;
 
                         setState(() {
-                          _startTimeController.text =_startTime.format(context);
+                          _startTimeController.text =
+                              _startTime.format(context);
                         });
                       },
                     ),
@@ -124,30 +120,14 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
                       onTap: () async {
                         FocusScope.of(context).requestFocus(new FocusNode());
                         _endTime = (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now()))!;
+                            context: context, initialTime: TimeOfDay.now()))!;
 
                         setState(() {
-                          _endTimeController.text =_endTime.format(context);
+                          _endTimeController.text = _endTime.format(context);
                         });
                       },
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: TextFormField(
-                  //     onTap: () async{
-                  //       showModalBottomSheet(builder: (BuildContext context) {
-                  //         return Column(
-                  //           children: this._populateChildren(),
-                  //         );
-                  //       }, context: context);
-                  //     },
-                  //     controller: _ChildrenController,
-                  //     decoration: InputDecoration(hintText: 'Gender'),
-                  //     validator: _validateEmpty,
-                  //   ),
-                  // ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -167,39 +147,5 @@ class _SleepLogsCreateViewState extends State<SleepLogsCreateView> {
                 ],
               ),
             )));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getAllChildrenByAccessToken();
-  }
-
-  void _getAllChildrenByAccessToken() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? access_token=prefs.getString('access_token');
-    List<Child> children=await ChildService().get_children_by_access_token(access_token!);
-    setState(() {
-      this.data=children;
-    });
-  }
-
-  List<ListTile> _populateChildren(){
-    List<ListTile> listTiles=[];
-    for(Child child in this.data){
-      ListTile listTile=ListTile(
-        title:Text(child.name),
-        onTap: (){
-          Navigator.pop(context);
-          setState(() {
-            this._ChildrenController.text=child.name;
-            this.child=child.id;
-          });
-        },
-      );
-
-      listTiles.add(listTile);
-    }
-    return listTiles;
   }
 }

@@ -41,7 +41,7 @@ class _DashboardView extends State<DashboardView> {
 
   Future<void> _navigateToChildrenList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => ChildrenListView(data: _allChildren,)));
+        context, MaterialPageRoute(builder: (_) => ChildrenListView()));
   }
 
 

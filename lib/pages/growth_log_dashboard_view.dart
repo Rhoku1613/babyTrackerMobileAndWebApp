@@ -44,7 +44,7 @@ class _GrowthLogDashboardView extends State<GrowthLogDashboardView> {
 
   Future<void> _navigateToLogList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => GrowthLogsListView(data: this.data,)));
+        context, MaterialPageRoute(builder: (_) => GrowthLogsListView(child: this.widget.child,)));
   }
 
   @override

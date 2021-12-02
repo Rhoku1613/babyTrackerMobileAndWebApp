@@ -1,12 +1,17 @@
 import 'package:baby_tracker/models/activity_log_response.dart';
+import 'package:baby_tracker/models/activity_response.dart';
 import 'package:baby_tracker/pages/sleep_logs_chart/sleep_logs_create.dart';
 import 'package:baby_tracker/services/acitvity_log_service.dart';
-import 'package:baby_tracker/services/child_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../sleep_log_dashboard_view.dart';
+
 class SleepLogsListView extends StatefulWidget {
-  const SleepLogsListView();
+
+  SleepLogsListView({Key? key, required this.child}): super(key: key);
+
+  final Child child;
 
   @override
   _SleepLogsListView createState() => _SleepLogsListView();
@@ -14,7 +19,6 @@ class SleepLogsListView extends StatefulWidget {
 
 class _SleepLogsListView extends State<SleepLogsListView> {
   List<SleepLogs> _allSleepLogs = <SleepLogs>[];
-  int child_id = 3;
   @override
   void initState() {
     super.initState();
@@ -23,7 +27,7 @@ class _SleepLogsListView extends State<SleepLogsListView> {
 
   void _get_all_sleep_logs() async {
     ActivityLogService()
-        .get_all_sleep_logs(this.child_id)
+        .get_all_sleep_logs(this.widget.child.id)
         .then((all_sleepLogs) => {
               setState(() => {_allSleepLogs = all_sleepLogs})
             });
@@ -31,9 +35,11 @@ class _SleepLogsListView extends State<SleepLogsListView> {
 
   void _deleteItem(int index) async {
     int id = _allSleepLogs[index].id;
-    String response = await ChildService().delete_child_info(id);
-    if (response == "Child info deleted successfully") {
-      print("Operation successful");
+    String response = await ActivityLogService().delete_sleepLog(id);
+    if (response == "Sleep Log Deleted Successfully") {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Sleep Log information deleted successfully')));
+      _navigateToDashboard();
     } else {
       print("Operation failed");
     }
@@ -66,7 +72,12 @@ class _SleepLogsListView extends State<SleepLogsListView> {
                             content: Text(
                                 "Are you sure you want to delete this sleep log?"),
                             actions: <Widget>[
-                              cancelButton,
+                              TextButton(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                               TextButton(
                                   onPressed: () {
                                     //delete item first
@@ -102,6 +113,11 @@ class _SleepLogsListView extends State<SleepLogsListView> {
 
   void _navigateToSleepLogAdd() async{
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const SleepLogsCreateView()));
+        context, MaterialPageRoute(builder: (_) => SleepLogsCreateView(child: this.widget.child,)));
+  }
+
+  void _navigateToDashboard() async{
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (_) => SleepLogDashboardView(child: this.widget.child)));
   }
 }

@@ -17,12 +17,6 @@ class _SleepLogBarChartState extends State<SleepLogBarChart> {
   @override
   Widget build(BuildContext context) {
     TooltipBehavior _tooltip = TooltipBehavior(enable: true);
-
-    List<SalesData> data = [
-      SalesData('Jan', 35),
-      SalesData('Feb', 35)
-    ];
-
     return Scaffold(
         appBar: AppBar(
           title:Text("Sleep Log Bar Chart")

@@ -36,8 +36,8 @@ class ChildService {
 
   Future<List<Child>> get_children_by_access_token(String access_token) async {
     User? user=await AccountService().get_logged_in_user(access_token);
-
-    final url = this.base_url + "user/children?user_id=$user.id";
+    int id=user!.id;
+    final url = this.base_url + "user/children?user_id=$id";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       List<Child> all_children = List<Child>.from(
@@ -106,7 +106,7 @@ class ChildService {
   Future<String> delete_child_info(int id) async{
     final url=this.base_url+"children/$id/";
     final response=await http.delete(Uri.parse(url));
-    if(response.statusCode==200){
+    if(response.statusCode==204){
       return "Child info deleted successfully";
     }else{
       throw Exception("Cannot get child info");

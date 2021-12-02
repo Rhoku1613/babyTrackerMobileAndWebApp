@@ -24,19 +24,22 @@ class Forum {
 class Comments{
   final int id;
   final String comment;
-  final User author;
+  final int comment_author;
+  final int comment_post;
 
   Comments({
     required this.id,
     required this.comment,
-    required this.author
+    required this.comment_author,
+    required this.comment_post
 });
 
   factory Comments.fromJson(Map<String, dynamic> json) {
     return Comments(
         id: json['id'],
         comment: json['comment'],
-        author: json['user']
+        comment_author: json['comment_author'],
+        comment_post:json["comment_post"]
     );
   }
 
