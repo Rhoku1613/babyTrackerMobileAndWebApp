@@ -45,10 +45,6 @@ class _SleepLogsListView extends State<SleepLogsListView> {
     }
   }
 
-  // Future<void> _navigateToSleepLogsCreateView() async{
-  //   await Navigator.push(
-  //       context, MaterialPageRoute(builder: (_) => ChildrenEnrollView()));
-  // }
 
   Widget cancelButton = TextButton(
     child: Text("Cancel"),
@@ -58,11 +54,10 @@ class _SleepLogsListView extends State<SleepLogsListView> {
   ListTile _buildItemsForListView(BuildContext context, int index) {
     return ListTile(
         onTap: () {},
-        title: Text(_allSleepLogs[index].date),
+        title: Text("Record of sleep log of "+_allSleepLogs[index].date),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
             IconButton(
                 onPressed: () {
                   showDialog(

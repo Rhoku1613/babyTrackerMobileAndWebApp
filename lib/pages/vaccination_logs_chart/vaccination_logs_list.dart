@@ -58,7 +58,6 @@ class _VaccinationLogsListView extends State<VaccinationLogsListView> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
             IconButton(
                 onPressed: () {
                   showDialog(

@@ -44,7 +44,6 @@ class _DiaperChangeLogsListView extends State<DiaperChangeLogsListView> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
             IconButton(
                 onPressed: () {
                   showDialog(

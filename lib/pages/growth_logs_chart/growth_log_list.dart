@@ -24,21 +24,7 @@ class _GrowthLogsListView extends State<GrowthLogsListView> {
   void initState() {
     super.initState();
     _populateGrowthLogs();
-  } // void _deleteItem(int index) async {
-  //   int id = data[index].id;
-  //   String response = await ChildService().delete_child_info(id);
-  //   if (response == "Child info deleted successfully") {
-  //     print("Operation successful");
-  //   } else {
-  //     print("Operation failed");
-  //   }
-  // }
-
-  // Future<void> _navigateToSleepLogsCreateView() async{
-  //   await Navigator.push(
-  //       context, MaterialPageRoute(builder: (_) => ChildrenEnrollView()));
-  // }
-
+  }
   void _deleteItem(int index) async {
     int id = _allGrowthLogs[index].id;
     String response = await ActivityLogService().delete_growthLog(id);
@@ -55,7 +41,7 @@ class _GrowthLogsListView extends State<GrowthLogsListView> {
   ListTile _buildItemsForListView(BuildContext context, int index) {
     return ListTile(
         onTap: () {},
-        title: Text(this._allGrowthLogs[index].datetime),
+        title: Text("Record of growth logs on "+this._allGrowthLogs[index].datetime),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

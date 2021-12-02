@@ -42,14 +42,6 @@ class _ForumDetailViewState extends State<ForumDetailView> {
               height: 10,
             ),
             Text("Comments"),
-            ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: _allComments.length,
-              itemBuilder: (context, index){
-                return Text(_allComments[index].comment);
-              },
-            )
           ],
         ));
   }
