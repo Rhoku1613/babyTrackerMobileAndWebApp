@@ -76,9 +76,9 @@ class _ChildrenDetailViewState extends State<ChildrenDetailView> {
           mainAxisSpacing: 4,
           children: [
             gridTileFactory("Sleep Log", AssetImage("assets/dashboard/baby-boy.png")),
-            gridTileFactory("Vaccination Log",AssetImage("assets/dashboard/babytracker-blog-logo.png")),
-            gridTileFactory("Growth Log",AssetImage("assets/dashboard/babytracker-forum-logo.png")),
-            gridTileFactory("Diaper Change Log",AssetImage("assets/dashboard/babytracker-syringe.png")),
+            gridTileFactory("Vaccination Log",AssetImage("assets/dashboard/babytracker-syringe.png")),
+            gridTileFactory("Growth Log",AssetImage("assets/dashboard/babyTracker-growth-logs.png")),
+            gridTileFactory("Diaper Change Log",AssetImage("assets/dashboard/babytracker-diaper.png")),
           ],
         ));
   }

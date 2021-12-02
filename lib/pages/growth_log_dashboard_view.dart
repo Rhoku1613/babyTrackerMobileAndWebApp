@@ -94,9 +94,9 @@ class _GrowthLogDashboardView extends State<GrowthLogDashboardView> {
           crossAxisSpacing: 4,
           mainAxisSpacing: 4,
           children: [
-            gridTileFactory("Growth Log List", AssetImage("assets/dashboard/baby-boy.png")),
-            gridTileFactory("Line Chart",AssetImage("assets/dashboard/babytracker-blog-logo.png")),
-            gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babytracker-forum-logo.png")),
+            gridTileFactory("Growth Log List", AssetImage("assets/dashboard/babyTracker-list.png")),
+            gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
+            gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
           ],
         ));
   }

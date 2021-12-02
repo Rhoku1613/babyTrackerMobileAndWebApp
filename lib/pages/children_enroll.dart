@@ -1,9 +1,12 @@
 import 'package:baby_tracker/models/activity_response.dart';
+import 'package:baby_tracker/models/forum_response.dart';
+import 'package:baby_tracker/services/account_services.dart';
 import 'package:baby_tracker/services/child_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:intl/intl.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChildrenEnrollView extends StatefulWidget {
   const ChildrenEnrollView();
@@ -22,6 +25,8 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
   bool isLoading = false;
 
   DateTime _selectedDate = DateTime.now();
+  String _genderSelected="";
+  int parent=1;
 
   void _submit() async {
     setState(() {
@@ -33,14 +38,16 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
         dob: _dobController.text,
         weight: double.parse(_weightController.text),
         height: int.parse(_heightController.text),
-        gender: _genderController.text,
-        parent: 1);
+        gender: _genderSelected,
+        parent: parent);
     final response = await ChildService().enroll_a_child(child);
     if (response == 'Child enrolled successfully') {
       setState(() {
         isLoading = false;
       });
     } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Some error occurred while adding child information')));
       setState(() {
         isLoading = false;
       });
@@ -54,28 +61,21 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
       return null;
   }
 
-  DropdownButton _showDropDownMenu() {
-    return DropdownButton(
-        value: _genderController.text,
-        onChanged: (value) {
-          setState(() {
-            _genderController.text = value;
-          });
-        },
-        items: [
-          DropdownMenuItem(
-            child: Text("Male"),
-            value: "ML",
-          ),
-          DropdownMenuItem(
-            child: Text("Female"),
-            value: "FM",
-          ),
-          DropdownMenuItem(
-            child: Text("Other"),
-            value: "OT",
-          ),
-        ]);
+
+  @override
+  void initState() {
+    super.initState();
+    _getParent();
+    _genderController.text="Male";
+    _genderSelected="ML";
+  }
+
+  void _getParent() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    User? user=await AccountService().get_logged_in_user(prefs.getString('access_token')!);
+    setState(() {
+      parent=user!.id;
+    });
   }
 
   @override
@@ -148,6 +148,44 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      onTap: () async{
+                        showModalBottomSheet(builder: (BuildContext context) {
+                          return Column(
+                            children: [
+                              ListTile(
+                                title:Text("Male"),
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    this._genderController.text="Male";
+                                    this._genderSelected="ML";
+                                  });
+                                },
+                              ),
+                              ListTile(
+                                title:Text("Female"),
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    this._genderController.text="Female";
+                                    this._genderSelected="FM";
+                                  });
+                                },
+                              ),
+                              ListTile(
+                                title:Text("Other"),
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    this._genderController.text="Other";
+                                    this._genderSelected="OT";
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        }, context: context);
+                      },
                       controller: _genderController,
                       decoration: InputDecoration(hintText: 'Gender'),
                       validator: _validateEmpty,
@@ -157,6 +195,9 @@ class _ChildrenEnrollViewState extends State<ChildrenEnrollView> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _submit();
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text('Child enrolled successful')));
+                        Navigator.pop(context);
                       }
                     },
                     child: (isLoading)
