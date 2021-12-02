@@ -1,7 +1,5 @@
 import 'package:baby_tracker/models/activity_response.dart';
-import 'package:baby_tracker/models/forum_response.dart';
 import 'package:baby_tracker/services/child_service.dart';
-import 'package:baby_tracker/services/forum_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +44,7 @@ class _ChildrenListView extends State<ChildrenListView> {
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChildrenDetailView(child: this.widget.data[index])));
       },
       title: Text(this.widget.data[index].name),
-      subtitle: Text(this.widget.data[index].weight.toString(), style: TextStyle(fontSize: 18)), trailing: Row(
+      subtitle: Text(this.widget.data[index].weight.toString()+" lbs", style: TextStyle(fontSize: 18)), trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(onPressed: () {

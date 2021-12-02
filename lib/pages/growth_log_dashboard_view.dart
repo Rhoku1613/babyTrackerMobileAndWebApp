@@ -96,7 +96,7 @@ class _GrowthLogDashboardView extends State<GrowthLogDashboardView> {
           children: [
             gridTileFactory("Growth Log List", AssetImage("assets/dashboard/babyTracker-list.png")),
             gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
-            gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
+            // gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
           ],
         ));
   }

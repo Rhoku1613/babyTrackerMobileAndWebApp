@@ -24,3 +24,11 @@ class SalesData {
   final String year;
   final double sales;
 }
+
+class SleepData{
+
+  final String date;
+  final int hours;
+
+  SleepData(this.date, this.hours);
+}

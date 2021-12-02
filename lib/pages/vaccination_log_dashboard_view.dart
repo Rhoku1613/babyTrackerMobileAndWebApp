@@ -55,7 +55,7 @@ class _VaccinationLogDashboardView extends State<VaccinationLogDashboardView> {
             _navigateToBarGraph();
           } else if (title == "Line Chart") {
             _navigateToLineChart();
-          }else if(title=="Sleep Log List"){
+          }else if(title=="Vaccination Log List"){
             _navigateToSleepLogList();
           }
         },
@@ -87,7 +87,7 @@ class _VaccinationLogDashboardView extends State<VaccinationLogDashboardView> {
           mainAxisSpacing: 4,
           children: [
             gridTileFactory("Vaccination Log List", AssetImage("assets/dashboard/babyTracker-list.png")),
-            gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
+            // gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
             gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
           ],
         ));

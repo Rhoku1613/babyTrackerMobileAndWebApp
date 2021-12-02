@@ -16,7 +16,6 @@ class AuthService {
   Future<bool> signUp(String email, String password) async {
     final response = await _client.signUp(email, password);
     if (response.error == null) {
-      print(response.user);
       //log('Sign up was successful for user ID: ${response.user!.id}');
       //_persistSession(response.data!);
       return true;
@@ -32,7 +31,6 @@ class AuthService {
     final response=await Dio().post(url, data: {'username': username, 'password': password},options: Options(contentType: "application/json"));
 
       if (response.statusCode == 200) {
-        print("Access token:$response.data['access']");
         prefs.setString('access_token', response.data['access']);
         prefs.setString('refresh_token', response.data['refresh']);
         return true;

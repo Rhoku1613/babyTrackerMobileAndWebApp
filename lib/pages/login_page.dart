@@ -106,16 +106,6 @@ class _LoginPageState extends State<LoginPage>{
                     )):const Text('Sign In'),
               ),
               ElevatedButton.icon(
-                onPressed: _signIn,
-                icon: Icon(Icons.login),
-                label: Text('Google Sign In'),
-              ),
-              ElevatedButton.icon(
-                onPressed: _signIn,
-                icon: Icon(Icons.login),
-                label: Text('Facebook Sign in'),
-              ),
-              ElevatedButton.icon(
                 onPressed: _goBack,
                 icon: Icon(Icons.arrow_back),
                 label: Text('Go Back'),

@@ -84,7 +84,7 @@ class _SleepLogDashboardView extends State<SleepLogDashboardView> {
           mainAxisSpacing: 4,
           children: [
             gridTileFactory("Sleep Log List", AssetImage("assets/dashboard/babyTracker-list.png")),
-            gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
+            //gridTileFactory("Line Chart",AssetImage("assets/dashboard/babyTracker-line-chart.png")),
             gridTileFactory("Bar Graph",AssetImage("assets/dashboard/babyTracker-bar.png")),
           ],
         ));

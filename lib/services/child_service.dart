@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import '../secrets.dart';
 import 'dart:convert';
 
+import 'account_services.dart';
+
 class ChildService {
   final base_url = baseUrl;
 
@@ -31,6 +33,22 @@ class ChildService {
       throw Exception("Cannot get children");
     }
   }
+
+  Future<List<Child>> get_children_by_access_token(String access_token) async {
+    User? user=await AccountService().get_logged_in_user(access_token);
+
+    final url = this.base_url + "user/children?user_id=$user.id";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      List<Child> all_children = List<Child>.from(
+          json.decode(response.body).map((x) => Child.fromJson(x)));
+      return all_children;
+    } else {
+      throw Exception("Cannot get children");
+    }
+  }
+
+
 
 
 

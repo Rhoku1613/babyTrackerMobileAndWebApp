@@ -37,6 +37,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       child: MaterialApp(
         title: 'BabyTracker',
         theme: theme.getTheme(),
+        debugShowCheckedModeBanner: false,
         home: Builder(
           builder: (context) {
             return FutureBuilder<bool>(

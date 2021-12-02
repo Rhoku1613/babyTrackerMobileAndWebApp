@@ -59,7 +59,7 @@ class _VaccinationLogsCreateViewState extends State<VaccinationLogsCreateView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add Growth Log"),
+          title: Text("Add Vaccination Log"),
         ),
         body: Form(
             autovalidateMode: AutovalidateMode.always,
