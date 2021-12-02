@@ -9,30 +9,18 @@ import 'child_detail_view.dart';
 import 'children_enroll.dart';
 
 class ChildrenListView extends StatefulWidget {
-  const ChildrenListView();
+  ChildrenListView({Key? key, required this.data}): super(key: key);
+
+  final List<Child> data;
 
   @override
   _ChildrenListView createState() => _ChildrenListView();
 }
 
 class _ChildrenListView extends State<ChildrenListView> {
-  List<Child> _allChildren = <Child>[];
-
-  @override
-  void initState() {
-    super.initState();
-    _get_all_child();
-  }
-
-  void _get_all_child() async {
-    ChildService().get_all_children().then((all_children) => {
-      setState(() => { _allChildren= all_children})
-    });
-  }
-
 
   void _deleteItem(int index) async{
-    int id=_allChildren[index].id;
+    int id=this.widget.data[index].id;
     String response=await ChildService().delete_child_info(id);
     if(response=="Child info deleted successfully"){
       print("Operation successful");
@@ -55,10 +43,10 @@ class _ChildrenListView extends State<ChildrenListView> {
   ListTile _buildItemsForListView(BuildContext context, int index) {
     return ListTile(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChildrenDetailView(child: _allChildren[index])));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChildrenDetailView(child: this.widget.data[index])));
       },
-      title: Text(_allChildren[index].name),
-      subtitle: Text(_allChildren[index].weight.toString(), style: TextStyle(fontSize: 18)), trailing: Row(
+      title: Text(this.widget.data[index].name),
+      subtitle: Text(this.widget.data[index].weight.toString(), style: TextStyle(fontSize: 18)), trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(onPressed: () {
@@ -97,7 +85,7 @@ class _ChildrenListView extends State<ChildrenListView> {
           title: Text("All Children"),
         ),
         body: ListView.builder(
-          itemCount: _allChildren.length,
+          itemCount: this.widget.data.length,
           itemBuilder: _buildItemsForListView,
 
         ));

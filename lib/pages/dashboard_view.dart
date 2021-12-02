@@ -1,7 +1,12 @@
+import 'package:baby_tracker/models/activity_response.dart';
+import 'package:baby_tracker/models/forum_response.dart';
 import 'package:baby_tracker/pages/children_list_view.dart';
 import 'package:baby_tracker/pages/settings_view.dart';
+import 'package:baby_tracker/services/account_services.dart';
+import 'package:baby_tracker/services/child_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'blog_list_view.dart';
 import 'forum_list_view.dart';
@@ -15,6 +20,10 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardView extends State<DashboardView> {
+
+  List<Child> _allChildren=[];
+
+
   Future<void> _navigateToSettings() async {
     await Navigator.push(
         context, MaterialPageRoute(builder: (_) => SettingsView()));
@@ -32,7 +41,7 @@ class _DashboardView extends State<DashboardView> {
 
   Future<void> _navigateToChildrenList() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => ChildrenListView()));
+        context, MaterialPageRoute(builder: (_) => ChildrenListView(data: _allChildren,)));
   }
 
 
@@ -114,10 +123,31 @@ class _DashboardView extends State<DashboardView> {
             gridTileFactory("Children", AssetImage("assets/dashboard/baby-boy.png")),
             gridTileFactory("Blogs",AssetImage("assets/dashboard/babytracker-blog-logo.png")),
             gridTileFactory("Forum",AssetImage("assets/dashboard/babytracker-forum-logo.png")),
-            gridTileFactory("Vaccination Logs",AssetImage("assets/dashboard/babytracker-syringe.png")),
-            gridTileFactory("Sleep Logs",AssetImage("assets/dashboard/babyTracker-sleep.png")),
-            gridTileFactory("Growth Logs",AssetImage("assets/dashboard/babyTracker-growth-logs.png"))
           ],
         ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _get_children_by_user();
+  }
+
+  void _get_children_by_user() async{
+    int id=await _get_current_user_id();
+    _get_current_user_children(id);
+  }
+
+  void _get_current_user_children(int id) {
+    ChildService().get_children_by_user(id).then((all_children) => {
+      setState(() => {this._allChildren = all_children})
+    });
+  }
+
+  Future<int> _get_current_user_id() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString('access_token');
+    User? user=await AccountService().get_logged_in_user(value!);
+    return user!.id;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:baby_tracker/pages/home_page.dart';
 import 'package:baby_tracker/pages/dashboard_page.dart';
 import 'package:baby_tracker/services/base_service.dart';
+import 'package:baby_tracker/theme/theme.dart';
 import 'package:baby_tracker/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -19,15 +21,22 @@ class BabyTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider<ThemeChanger>(
+      create: (_)=>ThemeChanger(ThemeData.light()),
+      child: MaterialAppWithTheme(),
+
+    );
+  }
+}
+
+class MaterialAppWithTheme extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme=Provider.of<ThemeChanger>(context);
     return Services(
       child: MaterialApp(
         title: 'BabyTracker',
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          brightness: Brightness.light,
-          primaryColor: Colors.lightBlue[800],
-          fontFamily: 'Georgia',
-        ),
+        theme: theme.getTheme(),
         home: Builder(
           builder: (context) {
             return FutureBuilder<bool>(

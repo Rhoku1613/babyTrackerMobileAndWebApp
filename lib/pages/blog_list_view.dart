@@ -3,6 +3,8 @@ import 'package:baby_tracker/services/blog_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'blog_detail_view.dart';
+
 class BlogListView extends StatefulWidget {
   const BlogListView();
 
@@ -11,7 +13,25 @@ class BlogListView extends StatefulWidget {
 }
 
 class _BlogListViewState extends State<BlogListView> {
+
   List<Blog> _allBlogs = <Blog>[];
+
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () {},
+  );
+
+
+
+  ListTile _buildItemsForListView(BuildContext context, int index) {
+    return ListTile(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>BlogDetailView(blog: _allBlogs[index],)));
+        },
+        title: Text(_allBlogs[index].title),
+        subtitle: Text(_allBlogs[index].body, style: TextStyle(fontSize: 18)),
+    );
+  }
 
   @override
   void initState() {
@@ -23,13 +43,6 @@ class _BlogListViewState extends State<BlogListView> {
     BlogService().get_all_blogs().then((all_blogs) => {
           setState(() => {_allBlogs = all_blogs})
         });
-  }
-
-  ListTile _buildItemsForListView(BuildContext context, int index) {
-    return ListTile(
-      title: Text(_allBlogs[index].title),
-      subtitle: Text(_allBlogs[index].body, style: TextStyle(fontSize: 18)),
-    );
   }
 
   @override

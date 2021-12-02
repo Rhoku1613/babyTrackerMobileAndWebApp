@@ -8,10 +8,8 @@ class AccountService{
 
 
 
-  Future<User?> get_logged_in_user() async{
+  Future<User?> get_logged_in_user(String access_token) async{
     final url=this.base_url+"api/v1/user/current";
-    SharedPreferences sp=await SharedPreferences.getInstance();
-    final access_token=sp.getString('access_token');
     try {
       var response = await Dio().get(url,options: Options(
         headers: {

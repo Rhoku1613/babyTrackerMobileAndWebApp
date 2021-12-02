@@ -32,14 +32,27 @@ class SleepLogs{
 class GrowthLogs{
   final int id;
   final String datetime;
-  final String height;
+  final int height;
   final int child;
 
   GrowthLogs({required this.id, required this.datetime, required this.height, required this.child});
 
 
   factory GrowthLogs.fromJson(Map<String, dynamic> json) {
-    return GrowthLogs(id: json['id'],datetime:json['datetime'],height:json["start"],child: json['child']);
+    return GrowthLogs(id: json['id'],datetime:json['datetime'],height:json["height"],child: json['child']);
+  }
+}
+
+class DiaperChangeLogs{
+  final int id;
+  final String datetime;
+  final String description;
+  final int child;
+
+  DiaperChangeLogs({required this.id, required this.datetime, required this.description, required this.child});
+
+  factory DiaperChangeLogs.fromJson(Map<String, dynamic> json){
+    return DiaperChangeLogs(id:json['id'],datetime:json['datetime'],description:json['description'],child:json['child']);
   }
 }
 

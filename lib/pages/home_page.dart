@@ -37,31 +37,6 @@ class _HomePageState extends State<HomePage> {
         context, MaterialPageRoute(builder: (_) => const SignUpPage()));
   }
 
-  Future<void> _navigateToBlogPosts() async{
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const BlogListView()));
-  }
-
-  Future<void> _navigateToForumPosts() async{
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const ForumListView()));
-  }
-
-  Future<void> _navigateToAllChildren() async{
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const ChildrenListView()));
-  }
-
-  Future<void> _navigateToAllActivities() async{
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const ActivityListView()));
-  }
-
-  Future<void> _navigateToDashboardView() async{
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const DashboardView()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,15 +44,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: _navigateToLogin,
-              icon: const Icon(Icons.login),
-              label: const Text('Sign in'),
+            Container(
+              child: ElevatedButton.icon(
+                onPressed: _navigateToLogin,
+                icon: const Icon(Icons.login),
+                label: const Text('Sign in'),
+              ),
             ),
-            ElevatedButton.icon(
-              onPressed: _navigateToSignUp,
-              icon: const Icon(Icons.app_registration),
-              label: const Text('Sign up'),
+            Container(
+              margin: EdgeInsets.all(10),
+              child: ElevatedButton.icon(
+                onPressed: _navigateToSignUp,
+                icon: const Icon(Icons.app_registration),
+                label: const Text('Sign up'),
+              ),
             ),
           ],
         ),

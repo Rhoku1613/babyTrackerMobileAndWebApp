@@ -12,7 +12,6 @@ class ChildService {
     final url = this.base_url + "children/";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       List<Child> all_children = List<Child>.from(
           json.decode(response.body).map((x) => Child.fromJson(x)));
       return all_children;
@@ -20,6 +19,19 @@ class ChildService {
       throw Exception("Cannot get children");
     }
   }
+
+  Future<List<Child>> get_children_by_user(int id) async {
+    final url = this.base_url + "user/children?user_id=$id";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      List<Child> all_children = List<Child>.from(
+          json.decode(response.body).map((x) => Child.fromJson(x)));
+      return all_children;
+    } else {
+      throw Exception("Cannot get children");
+    }
+  }
+
 
 
   Future<String> enroll_a_child(Child child) async{
@@ -74,7 +86,7 @@ class ChildService {
   }
 
   Future<String> delete_child_info(int id) async{
-    final url=this.base_url+"children/$id";
+    final url=this.base_url+"children/$id/";
     final response=await http.delete(Uri.parse(url));
     if(response.statusCode==200){
       return "Child info deleted successfully";
@@ -82,6 +94,4 @@ class ChildService {
       throw Exception("Cannot get child info");
     }
   }
-
-
 }

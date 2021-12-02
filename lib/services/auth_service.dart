@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
 import '../secrets.dart';
@@ -28,15 +26,15 @@ class AuthService {
   }
 
   Future<bool> signIn(String username, String password) async {
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final url = this.base_url + "api/v1/token/";
     try{
     final response=await Dio().post(url, data: {'username': username, 'password': password},options: Options(contentType: "application/json"));
 
       if (response.statusCode == 200) {
-        print("got response");
         print("Access token:$response.data['access']");
-        print("Refresh token:$response.data['refresh']");
+        prefs.setString('access_token', response.data['access']);
+        prefs.setString('refresh_token', response.data['refresh']);
         return true;
       }else {
         throw Exception("Failed to sign in");
