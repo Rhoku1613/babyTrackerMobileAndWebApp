@@ -27,12 +27,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _navigateToLogin() async{
+  Future<void> _navigateToLogin() async {
     await Navigator.push(
         context, MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
-  Future<void> _navigateToSignUp() async{
+  Future<void> _navigateToSignUp() async {
     await Navigator.push(
         context, MaterialPageRoute(builder: (_) => const SignUpPage()));
   }
