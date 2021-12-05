@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 void main() {
   runApp(BabyTrackerApp());
 }
@@ -22,9 +19,8 @@ class BabyTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeChanger>(
-      create: (_)=>ThemeChanger(ThemeData.light()),
+      create: (_) => ThemeChanger(ThemeData.light()),
       child: MaterialAppWithTheme(),
-
     );
   }
 }
@@ -32,7 +28,7 @@ class BabyTrackerApp extends StatelessWidget {
 class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme=Provider.of<ThemeChanger>(context);
+    final theme = Provider.of<ThemeChanger>(context);
     return Services(
       child: MaterialApp(
         title: 'BabyTracker',
