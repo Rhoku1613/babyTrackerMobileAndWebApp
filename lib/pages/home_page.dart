@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
+              decoration: new BoxDecoration(color: Colors.green),
               margin: EdgeInsets.all(10),
               child: ElevatedButton.icon(
                 onPressed: _navigateToSignUp,
