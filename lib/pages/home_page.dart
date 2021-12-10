@@ -40,11 +40,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              decoration: new BoxDecoration(color: Colors.grey),
               child: ElevatedButton.icon(
                 onPressed: _navigateToLogin,
                 icon: const Icon(Icons.login),
@@ -52,8 +54,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              decoration: new BoxDecoration(color: Colors.green),
-              margin: EdgeInsets.all(10),
+              decoration: new BoxDecoration(color: Colors.grey),
+              margin: const EdgeInsets.all(10),
               child: ElevatedButton.icon(
                 onPressed: _navigateToSignUp,
                 icon: const Icon(Icons.app_registration),
